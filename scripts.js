@@ -1,6 +1,6 @@
 // Function for the computer to randomly return rock, paper or scissors.
 function getComputerChoice() {
-    let computerSelection = Math.ceil(Math.random() * (4 - 1));
+    let computerSelection = Math.ceil(Math.random() * 3);
 
     switch (computerSelection) {
         case 1:
@@ -49,13 +49,45 @@ function playRound(playerSelection, computerSelection) {
         return "I don't understand your selection.";
     }
 }
-// Ask for input and save it in a variable.
-let playerSelection = (prompt("Type 'rock', 'paper' or 'scissors':")).toLowerCase();
 
-// Compare the player selection and the computer selection
-// and display winner of the round.
-console.log(playRound(playerSelection,getComputerChoice()));
+// Function to play five consecutive rounds and keep the score.
+function game() {
+    // Keep the game score in a variable.
+    let playerScore = 0;
+    let computerScore = 0;
 
-// Play five consecutive rounds and keep the score.
-// Display the score after each round.
-// Show the final score and the win or loss of the player.
+    for (i = 0; i < 5; i++) {
+        // Ask for input and save it in a variable.
+        let playerSelection = (prompt("Type 'rock', 'paper' or 'scissors':")).toLowerCase();
+
+        // Save the result of playRound in a variable.
+        let result = playRound(playerSelection,getComputerChoice())
+
+        // Compare the player selection and the computer selection
+        // and display winner of the round.
+        console.log(result);
+
+        // Keep the score in every round.
+        if (result == "You win! Rock beats scissors." || result == "You win! Paper beats rock." || result == "You win! Scissors beats paper.") {
+            playerScore += 1;
+        } else if (result == "You lose! Rock beats scissors." || result == "You lose! Paper beats rock." || result == "You lose! Scissors beats paper.") {
+            computerScore += 1;
+        }
+    }
+
+    // Show the final score.
+    console.log(`Your score is: ${playerScore}.`);
+    console.log(`The computer score is: ${computerScore}.`);
+
+    // Show the win or loss of the player
+    if (playerScore > computerScore) {
+        console.log("Congratulations! You won the game.");
+    } else if (playerScore < computerScore) {
+        console.log("I'm sorry! You lost the game.");
+    } else {
+        console.log("The game ends in a tie!");
+    }
+}
+
+// Run the game.
+game();
