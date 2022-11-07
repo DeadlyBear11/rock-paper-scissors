@@ -1,3 +1,18 @@
+// Declaring different results.
+const win = "You win!";
+const lose = "You lose!";
+const tie = "It's a tie!";
+
+// Declaring different combinations.
+const rbs = "Rock beats scissors.";
+const pbr = "Paper beats rock.";
+const sbp = "Scissors beat paper.";
+
+// Declaring ties combinations.
+const bsr = "Both selected rock.";
+const bsp = "Both selected paper.";
+const bss = "Both selected scissors.";
+
 // Function for the computer to randomly return rock, paper or scissors.
 function getComputerChoice() {
     let computerSelection = Math.ceil(Math.random() * 3);
@@ -21,29 +36,29 @@ function playRound(playerSelection, computerSelection) {
     if (playerSelection == "rock") {
         switch (computerSelection) {
             case "scissors":
-                return "You win! Rock beats scissors.";
+                return `${win} ${rbs}`;
             case "paper":
-                return "You lose! Paper beats rock.";
+                return `${lose} ${pbr}`;
             case "rock":
-                return "It's a tie! Both selected rock.";
+                return `${tie} ${bsr}`;
         }
     } else if (playerSelection == "paper") {
         switch (computerSelection) {
             case "scissors":
-                return "You lose! Scissors beats paper.";
+                return `${lose} ${sbp}`;
             case "paper":
-                return "It's a tie! Both selected paper.";
+                return `${tie} ${bsp}`;
             case "rock":
-                return "You win! Paper beats rock.";
+                return `${win} ${pbr}`;
         }
     } else if (playerSelection == "scissors") {
         switch (computerSelection) {
             case "scissors":
-                return "It's a tie! Both selected scissors.";
+                return `${tie} ${bss}`;
             case "paper":
-                return "You win! Scissors beats paper.";
+                return `${win} ${sbp}`;
             case "rock":
-                return "You lose! Rock beats scissors.";
+                return `${lose} ${rbs}`;
         }
     } else {
         return "I don't understand your selection.";
@@ -51,7 +66,7 @@ function playRound(playerSelection, computerSelection) {
 }
 
 // Function to play five consecutive rounds and keep the score.
-function game() {
+function playGame() {
     // Keep the game score in a variable.
     let playerScore = 0;
     let computerScore = 0;
@@ -89,5 +104,52 @@ function game() {
     }
 }
 
+// Select parent element.
+const container = document.querySelector("#container");
+container.classList.add("section");
+
+// Create three buttons.
+const btn1 = document.createElement("button");
+const btn2 = document.createElement("button");
+const btn3 = document.createElement("button");
+
+// Add thext to the buttons.
+btn1.appendChild(document.createTextNode("Rock"));
+btn2.appendChild(document.createTextNode("Paper"));
+btn3.appendChild(document.createTextNode("Scissors"));
+
+// Append buttons to body.
+container.appendChild(btn1);
+container.appendChild(btn2);
+container.appendChild(btn3);
+
+// Add and display a div to show results.
+const body = document.body;
+const resultsDiv = document.createElement("div");
+resultsDiv.classList.add("section");
+body.appendChild(resultsDiv);
+
+// Add a paragraph element to resultsDiv
+const para = document.createElement("p");
+resultsDiv.appendChild(para);
+
+// Add event-listeners to the buttons to show the results with text.
+let text = "";
+
+btn1.addEventListener("click", () => {
+    text = document.createTextNode(`${playRound("rock", getComputerChoice())}`);
+    para.appendChild(text);
+});
+btn2.addEventListener("click", () => {
+    text = document.createTextNode(`${playRound("paper", getComputerChoice())}`);
+    para.appendChild(text);
+});
+btn3.addEventListener("click", () => {
+    text = document.createTextNode(`${playRound("scissors", getComputerChoice())}`);
+    para.appendChild(text);
+});
+
+
+
 // Run the game.
-game();
+// playGame();
