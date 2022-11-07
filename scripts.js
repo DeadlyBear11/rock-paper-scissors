@@ -83,9 +83,9 @@ function playGame() {
         console.log(result);
 
         // Keep the score in every round.
-        if (result == "You win! Rock beats scissors." || result == "You win! Paper beats rock." || result == "You win! Scissors beats paper.") {
+        if (result === `${win} ${rbs}` || result === `${win} ${pbr}` || result === `${win} ${sbp}`) {
             playerScore += 1;
-        } else if (result == "You lose! Rock beats scissors." || result == "You lose! Paper beats rock." || result == "You lose! Scissors beats paper.") {
+        } else if (result === `${lose} ${pbr}` || result === `${lose} ${sbp}` || result === `${lose} ${rbs}`) {
             computerScore += 1;
         }
     }
@@ -129,25 +129,28 @@ const resultsDiv = document.createElement("div");
 resultsDiv.classList.add("section");
 body.appendChild(resultsDiv);
 
-// Add a paragraph element to resultsDiv
+// Add a paragraph element to resultsDiv.
 const para = document.createElement("p");
 resultsDiv.appendChild(para);
 
-// Add event-listeners to the buttons to show the results with text.
+// Function to understand user input, play a round and show a result.
 let text = "";
 
-btn1.addEventListener("click", () => {
-    text = document.createTextNode(`${playRound("rock", getComputerChoice())}`);
+function showResult(e) {
+    let pSelection = e.path[0].innerText.toLowerCase();
+
+    if (text) {
+        para.removeChild(text);
+    }
+
+    text = document.createTextNode(`${playRound(pSelection, getComputerChoice())}`);
     para.appendChild(text);
-});
-btn2.addEventListener("click", () => {
-    text = document.createTextNode(`${playRound("paper", getComputerChoice())}`);
-    para.appendChild(text);
-});
-btn3.addEventListener("click", () => {
-    text = document.createTextNode(`${playRound("scissors", getComputerChoice())}`);
-    para.appendChild(text);
-});
+}
+
+// Add event-listeners to the buttons to show the results with text.
+btn1.addEventListener("click", showResult);
+btn2.addEventListener("click", showResult);
+btn3.addEventListener("click", showResult);
 
 
 
