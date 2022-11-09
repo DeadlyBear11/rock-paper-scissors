@@ -71,20 +71,23 @@ let computerScore = 0;
 let scoreText = "";
 
 function playGame() {
-    // Keep the game score in a variable.
+    // Check if the game is already over.
+    if (playerScore === 5 || computerScore === 5) {
+        return;
+    }
 
-        // Save the result of playRound in a variable.
-        let result = para.innerText;
+    // Save the result of playRound in a variable.
+    let result = para.innerText;
 
-        // Keep the score in every round.
-        if (result === `${win} ${rbs}` || result === `${win} ${pbr}` || result === `${win} ${sbp}`) {
-            playerScore += 1;
-        } else if (result === `${lose} ${pbr}` || result === `${lose} ${sbp}` || result === `${lose} ${rbs}`) {
-            computerScore += 1;
-        }
+    // Keep the score in every round.
+    if (result === `${win} ${rbs}` || result === `${win} ${pbr}` || result === `${win} ${sbp}`) {
+        playerScore += 1;
+    } else if (result === `${lose} ${pbr}` || result === `${lose} ${sbp}` || result === `${lose} ${rbs}`) {
+        computerScore += 1;
+    }
 
     // Show the final score.
-    if (scoreText) {
+    if (paraScore.firstChild === scoreText) {
         paraScore.removeChild(scoreText);
     }
 
@@ -92,12 +95,16 @@ function playGame() {
     paraScore.appendChild(scoreText);
 
     // Show the win or loss of the player
+    tieText = document.createTextNode("The game ends in a tie!");
+    loseText = document.createTextNode("I'm sorry! You lost the game.");
+    winText = document.createTextNode("Congratulations! You won the game.");
+
     if (playerScore === 5 && computerScore === 5) {
-        paraEnd.appendChild(document.createTextNode("The game ends in a tie!"));
+        paraEnd.appendChild(tieText);
     } else if (computerScore === 5) {
-        paraEnd.appendChild(document.createTextNode("I'm sorry! You lost the game."));
-    } else if (playerScore === 5) { 
-        paraEnd.appendChild(document.createTextNode("Congratulations! You won the game."));
+        paraEnd.appendChild(loseText);
+    } else if (playerScore === 5) {
+        paraEnd.appendChild(winText);
     }
 }
 
@@ -122,25 +129,35 @@ container.appendChild(btn3);
 
 // Add and display div to show results.
 const body = document.body;
-const resultsDiv = document.createElement("div");
-resultsDiv.classList.add("section");
-body.appendChild(resultsDiv);
+const container2 = document.createElement("div");
+container2.classList.add("section");
+body.appendChild(container2);
 
 // Add three paragraph elements to resultsDiv.
 const para = document.createElement("p");
 const paraEnd = document.createElement("p");
 const paraScore = document.createElement("p");
-resultsDiv.appendChild(para);
-resultsDiv.appendChild(paraEnd);
-resultsDiv.appendChild(paraScore);
+container2.appendChild(para);
+container2.appendChild(paraEnd);
+container2.appendChild(paraScore);
+
+// Add button to play again at the end of the game.
+const btnPlayAgain = document.createElement("button");
+btnPlayAgain.appendChild(document.createTextNode("Play Again"));
+container2.appendChild(btnPlayAgain);
 
 // Function to understand user input, play a round and show a result.
 let text = "";
 
 function showResult(e) {
+    // Check if game is already over.
+    if (playerScore === 5 || computerScore === 5) {
+        return;
+    }
+
     let pSelection = e.path[0].innerText.toLowerCase();
 
-    if (text) {
+    if (para.firstChild === text) {
         para.removeChild(text);
     }
 
@@ -153,7 +170,24 @@ btn1.addEventListener("click", showResult);
 btn2.addEventListener("click", showResult);
 btn3.addEventListener("click", showResult);
 
-window.addEventListener("click", playGame);
+container.addEventListener("click", playGame);
+
+// Function to wipe the score and start a new game.
+function startNewGame() {
+    playerScore = 0;
+    computerScore = 0;
+
+    if (para.firstChild === text) {
+        para.removeChild(text);
+    } if (paraScore.firstChild === scoreText) {
+        paraScore.removeChild(scoreText);
+    } if (paraEnd.firstChild) {
+        paraEnd.removeChild(paraEnd.firstChild);
+    }
+
+}
+
+btnPlayAgain.addEventListener("click", startNewGame)
 
 
 // Run the game.
