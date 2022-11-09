@@ -66,21 +66,15 @@ function playRound(playerSelection, computerSelection) {
 }
 
 // Function to play five consecutive rounds and keep the score.
+let playerScore = 0;
+let computerScore = 0;
+let scoreText = "";
+
 function playGame() {
     // Keep the game score in a variable.
-    let playerScore = 0;
-    let computerScore = 0;
-
-    for (i = 0; i < 5; i++) {
-        // Ask for input and save it in a variable.
-        let playerSelection = (prompt("Type 'rock', 'paper' or 'scissors':")).toLowerCase();
 
         // Save the result of playRound in a variable.
-        let result = playRound(playerSelection,getComputerChoice())
-
-        // Compare the player selection and the computer selection
-        // and display winner of the round.
-        console.log(result);
+        let result = para.innerText;
 
         // Keep the score in every round.
         if (result === `${win} ${rbs}` || result === `${win} ${pbr}` || result === `${win} ${sbp}`) {
@@ -88,19 +82,22 @@ function playGame() {
         } else if (result === `${lose} ${pbr}` || result === `${lose} ${sbp}` || result === `${lose} ${rbs}`) {
             computerScore += 1;
         }
-    }
 
     // Show the final score.
-    console.log(`Your score is: ${playerScore}.`);
-    console.log(`The computer score is: ${computerScore}.`);
+    if (scoreText) {
+        paraScore.removeChild(scoreText);
+    }
+
+    scoreText = document.createTextNode(`Your score is: ${playerScore}. The computer score is: ${computerScore}.`)
+    paraScore.appendChild(scoreText);
 
     // Show the win or loss of the player
-    if (playerScore > computerScore) {
-        console.log("Congratulations! You won the game.");
-    } else if (playerScore < computerScore) {
-        console.log("I'm sorry! You lost the game.");
-    } else {
-        console.log("The game ends in a tie!");
+    if (playerScore === 5 && computerScore === 5) {
+        paraEnd.appendChild(document.createTextNode("The game ends in a tie!"));
+    } else if (computerScore === 5) {
+        paraEnd.appendChild(document.createTextNode("I'm sorry! You lost the game."));
+    } else if (playerScore === 5) { 
+        paraEnd.appendChild(document.createTextNode("Congratulations! You won the game."));
     }
 }
 
@@ -123,15 +120,19 @@ container.appendChild(btn1);
 container.appendChild(btn2);
 container.appendChild(btn3);
 
-// Add and display a div to show results.
+// Add and display div to show results.
 const body = document.body;
 const resultsDiv = document.createElement("div");
 resultsDiv.classList.add("section");
 body.appendChild(resultsDiv);
 
-// Add a paragraph element to resultsDiv.
+// Add three paragraph elements to resultsDiv.
 const para = document.createElement("p");
+const paraEnd = document.createElement("p");
+const paraScore = document.createElement("p");
 resultsDiv.appendChild(para);
+resultsDiv.appendChild(paraEnd);
+resultsDiv.appendChild(paraScore);
 
 // Function to understand user input, play a round and show a result.
 let text = "";
@@ -152,6 +153,7 @@ btn1.addEventListener("click", showResult);
 btn2.addEventListener("click", showResult);
 btn3.addEventListener("click", showResult);
 
+window.addEventListener("click", playGame);
 
 
 // Run the game.
