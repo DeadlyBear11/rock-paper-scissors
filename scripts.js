@@ -170,7 +170,7 @@ btn3.addEventListener("click", showResult);
 
 btn1.addEventListener("click", playGame);
 btn2.addEventListener("click", playGame);
-btn2.addEventListener("click", playGame);
+btn3.addEventListener("click", playGame);
 
 // Function to wipe the score and start a new game.
 function startNewGame() {
