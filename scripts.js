@@ -110,7 +110,6 @@ function playGame() {
 
 // Select parent element.
 const container = document.querySelector("#container");
-container.classList.add("section");
 
 // Create three buttons.
 const btn1 = document.createElement("button");
@@ -130,7 +129,6 @@ container.appendChild(btn3);
 // Add and display div to show results.
 const body = document.body;
 const container2 = document.createElement("div");
-container2.classList.add("section");
 body.appendChild(container2);
 
 // Add three paragraph elements to resultsDiv.
@@ -165,12 +163,14 @@ function showResult(e) {
     para.appendChild(text);
 }
 
-// Add event-listeners to the buttons to show the results with text.
+// Add event-listeners to the buttons play game and show the results on UI.
 btn1.addEventListener("click", showResult);
 btn2.addEventListener("click", showResult);
 btn3.addEventListener("click", showResult);
 
-container.addEventListener("click", playGame);
+btn1.addEventListener("click", playGame);
+btn2.addEventListener("click", playGame);
+btn2.addEventListener("click", playGame);
 
 // Function to wipe the score and start a new game.
 function startNewGame() {
@@ -189,6 +189,11 @@ function startNewGame() {
 
 btnPlayAgain.addEventListener("click", startNewGame)
 
+// Manage CSS.
+container.classList.add("section");
+container2.classList.add("section");
 
-// Run the game.
-// playGame();
+// Add author's name at the end of the page
+const author = document.createElement("p");
+author.appendChild(document.createTextNode("Created by Guillermo Cota with Javascript"));
+container2.appendChild(author);
